@@ -4,7 +4,7 @@
 
 - [How to create a proposal](#how-to-create-a-proposal-on-zigchain-governance)
 - [Deposit and Deposit Period](#-deposit-and-deposit-period)
-- [Voting and Voting Period](#️-voting-and-voting-period)
+- [Voting and Voting Period](#voting-and-voting-period)
 - [Cancel a Proposal](#cancel-a-proposal)
 - [Expedited Proposals](#expedited-proposals)
 - [Governance Parameters](#params-of-the-governance-in-zigchain)
@@ -166,36 +166,47 @@ zigchaind query gov proposal $PROPOSAL_ID
 
 Example Response:
 
-```plaintext
-deposit_end_time: "2024-10-16T10:02:52.465397Z"
-final_tally_result:
- abstain_count: "0"
- no_count: "0"
- no_with_veto_count: "0"
- yes_count: "1000000000"
-id: "1"
-messages:
-- type: cosmos-sdk/x/staking/MsgUpdateParams
- value:
-   authority: zig10d07y265gmmuvt4z0w9aw880jnsr700jmgkh5m
-   params:
-     bond_denom: uzig
-     historical_entries: 10000
-     max_entries: 7
-     max_validators: 100
-     min_commission_rate: "50000000000000000"
-     unbonding_time: 336h0m0s
-metadata: ipfs://Qmajr22xYgoi3VGgnoUWDMYWittB4vp1udcfjuirEFxBkW
-proposer: zig15xwallkarj7jmwkezfs6kf9z4q6tdy7ys08f9p
-status: PROPOSAL_STATUS_PASSED
-submit_time: "2024-10-14T10:02:52.465397Z"
-summary: Proposal to increase from 50 to 100 validators the active set
-title: Proposal to increase to 100 validators the active set
-total_deposit:
-- amount: "5000000000000"
- denom: uzig
-voting_end_time: "2024-10-14T10:04:34.526219Z"
-voting_start_time: "2024-10-14T10:02:54.526219Z"
+```json
+{
+  "deposit_end_time": "2024-10-16T10:02:52.465397Z",
+  "final_tally_result": {
+    "abstain_count": "0",
+    "no_count": "0",
+    "no_with_veto_count": "0",
+    "yes_count": "1000000000"
+  },
+  "id": "1",
+  "messages": [
+    {
+      "type": "cosmos-sdk/x/staking/MsgUpdateParams",
+      "value": {
+        "authority": "zig10d07y265gmmuvt4z0w9aw880jnsr700jmgkh5m",
+        "params": {
+          "bond_denom": "uzig",
+          "historical_entries": 10000,
+          "max_entries": 7,
+          "max_validators": 100,
+          "min_commission_rate": "50000000000000000",
+          "unbonding_time": "336h0m0s"
+        }
+      }
+    }
+  ],
+  "metadata": "ipfs://Qmajr22xYgoi3VGgnoUWDMYWittB4vp1udcfjuirEFxBkW",
+  "proposer": "zig15xwallkarj7jmwkezfs6kf9z4q6tdy7ys08f9p",
+  "status": "PROPOSAL_STATUS_PASSED",
+  "submit_time": "2024-10-14T10:02:52.465397Z",
+  "summary": "Proposal to increase from 50 to 100 validators the active set",
+  "title": "Proposal to increase to 100 validators the active set",
+  "total_deposit": [
+    {
+      "amount": "5000000000000",
+      "denom": "uzig"
+    }
+  ],
+  "voting_end_time": "2024-10-14T10:04:34.526219Z",
+  "voting_start_time": "2024-10-14T10:02:54.526219Z"
+}
 ```
 
 Response Fields Explanation:
@@ -441,7 +452,7 @@ zigchaind query gov deposits 1
 
 Shows all deposit transactions for proposal ID 1.
 
-## Params of the Governance in ZIGChain
+## Governance Parameters
 
 You can query the governance parameters using the following command:
 
