@@ -1,11 +1,22 @@
 # ZIGChain Governance
 
+## Table of Contents
+
+- [How to create a proposal](#how-to-create-a-proposal-on-zigchain-governance)
+- [Deposit and Deposit Period](#-deposit-and-deposit-period)
+- [Voting and Voting Period](#️-voting-and-voting-period)
+- [Cancel a Proposal](#cancel-a-proposal)
+- [Expedited Proposals](#expedited-proposals)
+- [Governance Parameters](#params-of-the-governance-in-zigchain)
+- [Proposal Types](#proposal-types)
+- [References](#references)
+
 ZIGChain governance is a decentralized decision-making process that allows ZIGChain users to participate in the network's future. Users can vote on proposals on a 1 ZIG 1 vote basis to change parameters, such as fees, number of validators, and other network parameters, or decide how to spent the ZIGChain funds. The governance process is essential for the decentralized nature of ZIGChain and ensures that the network evolves according to the community's consensus.
 
-If you are looking for just to have the fast commands you can use:
+"If you're just looking for the quick commands..."
 
-- The [Governance Quick Sheet](https://docs.zigchain.com/build/governance-module#governance-cli-quick-sheet)
-- See these commands in action with the [governance.sh](https://github.com/purgatorian/ZigchainGovernance/blob/main/governance.sh)
+- 📘 [Governance Quick Sheet](https://docs.zigchain.com/build/governance-module#governance-cli-quick-sheet)
+- 🖥️ See the commands in action with [governance.sh](./governance.sh)
 
 ## How to create a proposal on ZIGChain Governance?
 
@@ -92,18 +103,6 @@ curl -s -X POST https://api.pinata.cloud/pinning/pinFileToIPFS \
   -F "file=@draft_metadata.json" | jq -r '.IpfsHash' | \
   xargs -I{} jq --arg cid "ipfs://{}" '.metadata = $cid' draft_proposal.json > updated_proposal.json && mv updated_proposal.json draft_proposal.json
 ```
-
-3. Some proposals may require an Authority in the information provided. This field should match with the Governance Account that it is under Auth Module. To get the Governance Account, you can use the following command:
-
-```sh
-zigchaind query auth accounts
-```
-
-and look for the address in the list under `type: cosmos-sdk/ModuleAccount` with `name: gov`.
-
-### Step 2: Submit a Proposal
-
-... (rest of content continues)
 
 3. Some proposals may require an Authority in the information provided. This field should match with the Governance Account that it is under Auth Module. To get the Governance Account, you can use the following command:
 
@@ -467,5 +466,5 @@ https://docs.cosmos.network/main/build/modules/gov
 
 <!--- ZIGChain - References -->
 
-[Governance Quick Sheet]: ../public%20docs/2_Builders/governance_module#Governance-Quick-Sheet
-[governance.sh]: ../../sh/governance.sh
+[Governance Quick Sheet]: https://docs.zigchain.com/build/governance-module#governance-cli-quick-sheet
+[governance.sh]: ./governance.sh
