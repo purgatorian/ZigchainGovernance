@@ -121,7 +121,29 @@ Once you have drafted the proposal, you can submit it using the following comman
 zigchaind tx gov submit-proposal draft_proposal.json --from <key-name> --chain-id ZIGChain --node <node-url> --gas-prices 0.25uzig --gas auto --gas-adjustment 1.3
 ```
 
-The response would provide you the transaction id in the blockchain.
+Example:
+
+```sh
+zigchaind tx gov submit-proposal draft_proposal.json --from valuser1 --chain-id zigchain-1 --node http://localhost:26657 --gas-prices 0.25uzig --gas auto --gas-adjustment 1.3
+```
+
+The response would provide you the transaction id in the blockchain like this:
+
+```sh
+code: 0
+codespace: ""
+data: ""
+events: []
+gas_used: "0"
+gas_wanted: "0"
+height: "0"
+info: ""
+logs: []
+raw_log: ""
+timestamp: ""
+tx: null
+txhash: 6310A6829867FD6722922ADA208AF5F4BEB9478917B699B879FC2EF96C8FCC3E
+```
 
 If during submitting the proposal you get an error like this:
 
@@ -205,66 +227,157 @@ If not, you can check the proposals list using the following command:
 zigchaind query gov proposals
 ```
 
-## Deposit and Deposit Period
+## 🧹 Deposit and Deposit Period
 
-Once the proposal has been created, there are two options, that the deposited amount is below or above the `minimum deposit amount`. The `minimum deposit amount` is the amount required to make a proposal acceptable to start the voting.
+Once a proposal is created, it enters the **deposit period**, during which it must receive at least the `minimum deposit amount` to proceed to the voting stage.
 
-There is a `deposit period` that is the time that the proposal is open for deposits. If the proposal doesn't reach the `minimum deposit amount` during this period, the proposal is closed and the deposit is returned to the proposer.
+- If the total deposit remains **below the threshold**, the proposal is **closed** at the end of the deposit period and the deposit is **returned to the proposer**.
+- If the deposit exceeds the threshold **within the period**, the proposal enters the **voting period**.
 
-Check the deposit period starting and ending time using the following command:
+To check the current status of the proposal (including deposit timings), use:
 
 ```sh
 zigchaind query gov proposal $PROPOSAL_ID
 ```
 
-To deposit on a proposal, use the following command:
+### 💸 Deposit on a Proposal
 
 ```sh
-zigchaind tx gov deposit $PROPOSAL_ID 1000000uzig --from <key-name>
+zigchaind tx gov deposit $PROPOSAL_ID <amount> --from <key-name> --chain-id <chain-id> --fees 50uzig --gas auto --gas-adjustment 1.2
 ```
 
-Once the deposit amount is above the `minimum deposit amount`, the proposal enters the voting period.
-
-## Voting and Voting Period
-
-Only ZIGChain Delegators with their ZIGs bonded (staked on a Validator on the Active Set) can vote. The voting power is proportional to the amount of ZIGs bonded. The more ZIGs bonded, the more voting power the user has.
-
-Only ZIG Bonded tokens count. If the delegator has bonded and not bonded ZIGs, only the bonded ZIGs count for voting power.
-
-If the delegator doesn't vote, it inherits the vote of the validator it is bonded to.
-
-When voting, the voting options are:
-
-- Yes
-- No
-- No with Veto
-- Abstain
-
-To vote on a proposal, use the following command:
+#### Example:
 
 ```sh
-zigchaind tx gov vote <proposal-id> <option> --from <key-name>
+zigchaind tx gov deposit $PROPOSAL_ID 1000000uzig --from zuser1 --chain-id zigchain-1 --fees 50uzig --gas auto --gas-adjustment 1.2
 ```
 
-There is also an option to vote with weights. The user can specify the percentage of the vote for each option. This is useful when there is a group behind the vote, and each member has a different opinion.
+Once the deposit exceeds the threshold, the proposal automatically moves into the **voting phase**.
 
-Here an example of how to vote with weights:
+---
+
+## 🗳️ Voting and Voting Period
+
+Only users with **bonded (staked) ZIG tokens** can vote. The **voting power** is proportional to the amount of ZIGs bonded.
+
+🧠 **Important Notes:**
+
+- Only **bonded ZIGs** count.
+- If you do not vote, your vote will follow that of the validator you are delegated to.
+
+### ✅ Voting Options
+
+- `Yes`
+- `No`
+- `No with Veto`
+- `Abstain`
+
+### 🗳️ Vote Command
+
+```sh
+zigchaind tx gov vote <proposal-id> <option> --from <key-name> --chain-id <chain-id> --fees 50uzig
+```
+
+#### Example:
+
+```sh
+zigchaind tx gov vote $PROPOSAL_ID yes --from zuser1 --chain-id zigchain-1 --fees 50uzig
+```
+
+### ⚖️ Weighted Voting
+
+You can also cast a weighted vote:
 
 ```sh
 zigchaind tx gov weighted-vote <proposal-id> yes=0.6,no=0.3,abstain=0.05,no_with_veto=0.05 --from <key-name>
 ```
 
-Once you vote, you can check the proposal vote status using the following command:
+---
+
+### 📊 Check Vote Status
+
+- **View overall tally:**
 
 ```sh
 zigchaind query gov tally <proposal-id>
 ```
 
-Or check your specific vote using the following command:
+- **View your individual vote:**
 
 ```sh
 zigchaind query gov vote <proposal-id> <voter-addr>
 ```
+
+---
+
+### 🤨 Not Seeing Your Vote?
+
+You may not be staking with your current address. To check:
+
+```sh
+zigchaind query staking delegations $(zigchaind keys show <account-name> --address) --chain-id zigchain-1
+```
+
+#### Example:
+
+```sh
+zigchaind query staking delegations $(zigchaind keys show zuser3 --address) --chain-id zigchain-1
+```
+
+**Empty response?** You’re not delegated yet. Follow the next steps to stake:
+
+---
+
+### 🔐 Delegate to a Validator
+
+1. **Find a validator:**
+
+```sh
+zigchaind query staking validators --chain-id zigchain-1 --output json | jq -r '.validators[] | "\(.description.moniker): \(.operator_address)"'
+```
+
+2. **Delegate your tokens:**
+
+```sh
+zigchaind tx staking delegate <validator-address> <amount> \
+  --from <account-name> \
+  --chain-id zigchain-1 \
+  --fees 50uzig \
+  --gas auto \
+  --gas-adjustment 1.2
+```
+
+#### Example:
+
+```sh
+zigchaind tx staking delegate zigvaloper10ckuk5ltxzld45yy66fmz8gcc6qjvsty39zlvl 100000000000000000000uzig \
+  --from zuser3 \
+  --chain-id zigchain-1 \
+  --fees 50uzig \
+  --gas auto \
+  --gas-adjustment 1.2
+```
+
+3. **Verify delegation:**
+
+```sh
+zigchaind query staking delegations $(zigchaind keys show zuser3 --address) --chain-id zigchain-1
+```
+
+Expected response:
+
+```yaml
+delegation_responses:
+  - balance:
+      amount: "100000000000000000000"
+      denom: uzig
+    delegation:
+      delegator_address: zig1fh0pqu3kdn4cu3waqmd3pfj66tgsnqrs9ls8vf
+      shares: "100000000000000000000.000000000000000000"
+      validator_address: zigvaloper10ckuk5ltxzld45yy66fmz8gcc6qjvsty39zlvl
+```
+
+Now you can vote using this new wallet address.
 
 ## Voting Results
 
