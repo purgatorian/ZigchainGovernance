@@ -66,21 +66,7 @@ Usually IPFS is the most suitable option due to the size of the metadata limitat
 
 #### Uploading metadata to IPFS using Pinata (Linux)
 
-##### 1. Get your Pinata API credentials
-
-Go to https://app.pinata.cloud/developer.
-
-If you don't have an account, sign up for one (it's free).
-
-Once signed in, navigate to the API Keys section.
-
-Click New Key, give it a name (e.g., ZIGChain Upload Key), and make sure to select Admin access or permissions for pinning files.
-
-Copy the JWT (JSON Web Token) provided. This is what you will use to authenticate API requests.
-
-You’ll use this JWT in the next step, either directly or by storing it in a variable for convenience.
-
-##### (Optional) Store your JWT in a variable
+##### 0. (Optional) Store your JWT in a variable
 
 To avoid repeating the token, you can store it in a shell variable:
 
@@ -89,6 +75,16 @@ export PINATA_JWT="<YOUR_JWT>"
 ```
 
 Replace `<YOUR_JWT>` with your actual Pinata token. You can now use `$PINATA_JWT` in the commands below.
+
+##### 1. Get your Pinata API credentials
+
+1. Go to [https://app.pinata.cloud/developer](https://app.pinata.cloud/developer).
+2. If you don't have an account, sign up for one (it's free).
+3. Once signed in, navigate to the **API Keys** section.
+4. Click **New Key**, give it a name (e.g., `ZIGChain Upload Key`), and make sure to select **Admin access** or permissions for pinning files.
+5. Copy the **JWT** (JSON Web Token) provided. This is what you will use to authenticate API requests.
+
+You’ll use this JWT in the next step, either directly or by storing it in a variable for convenience.
 
 ##### 2. Automatically upload and update `draft_proposal.json` with the returned IPFS hash
 
