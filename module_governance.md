@@ -4,7 +4,7 @@ ZIGChain governance is a decentralized decision-making process that allows ZIGCh
 
 If you are looking for just to have the fast commands you can use:
 
-- The [Governance Quick Sheet][Governance Quick Sheet]
+- The [Governance Quick Sheet][https://docs.zigchain.com/build/governance-module#governance-cli-quick-sheet]
 - See these commands in action with the [governance.sh][governance.sh]
 
 ## How to create a proposal on ZIGChain Governance?
