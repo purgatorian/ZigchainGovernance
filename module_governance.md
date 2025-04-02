@@ -129,19 +129,22 @@ zigchaind tx gov submit-proposal draft_proposal.json --from valuser1 --chain-id 
 The response would provide you the transaction id in the blockchain like this:
 
 ```sh
-code: 0
-codespace: ""
-data: ""
-events: []
-gas_used: "0"
-gas_wanted: "0"
-height: "0"
-info: ""
-logs: []
-raw_log: ""
-timestamp: ""
-tx: null
-txhash: 6310A6829867FD6722922ADA208AF5F4BEB9478917B699B879FC2EF96C8FCC3E
+{
+  "code": 0,
+  "codespace": "",
+  "data": "",
+  "events": [],
+  "gas_used": "0",
+  "gas_wanted": "0",
+  "height": "0",
+  "info": "",
+  "logs": [],
+  "raw_log": "",
+  "timestamp": "",
+  "tx": null,
+  "txhash": "6310A6829867FD6722922ADA208AF5F4BEB9478917B699B879FC2EF96C8FCC3E"
+}
+
 ```
 
 If during submitting the proposal you get an error like this:
@@ -408,6 +411,36 @@ Expedited proposals are proposals that have a shorter deposit and voting period.
 
 To create an expedited proposal, you need to set the `expedited` field to `true` in the proposal data.
 
+## 🧾 Query Proposal Votes
+
+**Template:**
+
+```sh
+zigchaind query gov votes <proposal-id>
+```
+
+Example:
+
+```sh
+zigchaind query gov votes 1
+```
+
+## 🧾 Query Proposal Deposits
+
+**Template:**
+
+```sh
+zigchaind query gov deposits <proposal-id>
+```
+
+Example:
+
+```sh
+zigchaind query gov deposits 1
+```
+
+Shows all deposit transactions for proposal ID 1.
+
 ## Params of the Governance in ZIGChain
 
 You can query the governance parameters using the following command:
@@ -418,26 +451,34 @@ zigchaind query gov params
 
 The current params are:
 
-```
-burn_vote_veto: true
-burn_proposal_deposit: false
-burn_vote_quorum: false
-expedited_min_deposit:
-  - amount: "100000000000000"
-    denom: uzig
-expedited_threshold: "0.667000000000000000"
-expedited_voting_period: 24h0m0s
-max_deposit_period: 48h0m0s
-min_deposit:
-  - amount: "5000000000000"
-    denom: uzig
-min_deposit_ratio: "0.010000000000000000"
-min_initial_deposit_ratio: "0.000000000000000000"
-proposal_cancel_ratio: "0.500000000000000000"
-quorum: "0.334000000000000000"
-threshold: "0.500000000000000000"
-veto_threshold: "0.334000000000000000"
-voting_period: 48h0m0s
+```json
+{
+  "burn_vote_veto": true,
+  "burn_proposal_deposit": false,
+  "burn_vote_quorum": false,
+  "expedited_min_deposit": [
+    {
+      "amount": "100000000000000",
+      "denom": "uzig"
+    }
+  ],
+  "expedited_threshold": "0.667000000000000000",
+  "expedited_voting_period": "24h0m0s",
+  "max_deposit_period": "48h0m0s",
+  "min_deposit": [
+    {
+      "amount": "5000000000000",
+      "denom": "uzig"
+    }
+  ],
+  "min_deposit_ratio": "0.010000000000000000",
+  "min_initial_deposit_ratio": "0.000000000000000000",
+  "proposal_cancel_ratio": "0.500000000000000000",
+  "quorum": "0.334000000000000000",
+  "threshold": "0.500000000000000000",
+  "veto_threshold": "0.334000000000000000",
+  "voting_period": "48h0m0s"
+}
 ```
 
 ## Proposal Types
