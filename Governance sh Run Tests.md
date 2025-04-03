@@ -11,8 +11,6 @@
 ---
 
 <aside>
-💡
-
 ### 🔐 Prevent Wallet Passphrase Prompts
 
 Script prompts account password with each refresh. If you ever get tired of it follow the steps below.
