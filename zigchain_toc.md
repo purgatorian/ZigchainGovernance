@@ -8,7 +8,7 @@ This document contains categorized frequently asked questions for the ZigChain e
 
 ### Q: Do you already have an agreement with oracles?
 **A:**  
-We’re currently integrating with Skip Protocol, one of the leading oracle solutions on Cosmos. More details will be shared as the integration progresses.
+We’re currently integrating with [Skip Protocol](https://www.skip.build/), one of the leading oracle solutions on Cosmos. More details will be shared as the integration progresses.
 
 ---
 
@@ -51,7 +51,7 @@ zigchaind tx staking delegate <VALIDATOR_ADDRESS> <AMOUNT> \
 - `<AMOUNT>` with the amount to delegate (e.g., `1000000uzig`)
 - `<DELEGATOR_ACCOUNT>` with the name or address of the wallet you're using
 
-👉 Refer to the official CLI command guide for more details: ZigChain Staking CLI Quick Sheet
+👉 Refer to the official CLI command guide for more details: [ZigChain Staking CLI Quick Sheet](https://docs.zigchain.com/build/staking-module#staking-cli-quick-sheet)
 
 ---
 
