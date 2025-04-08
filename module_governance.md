@@ -160,7 +160,7 @@ It means that in the proposal the authority field doesn't match with the account
 To confirm that your proposal has been created, you can get the proposal id from the transaction id obtained during step 2 and query the proposal using the following command:
 
 ```sh
-$PROPOSAL_ID=1
+export PROPOSAL_ID=1
 zigchaind query gov proposal $PROPOSAL_ID
 ```
 
@@ -413,7 +413,12 @@ If the proposal is passed or rejected, the deposit is returned to the proposer a
 It is possible to cancel a proposal if the proposer decides to do so. To cancel a proposal, use the following command:
 
 ```sh
-zigchaind tx gov cancel-proposal <proposal-id> --from <key-name> --chain-id <chain-id> --node <node-url> --fees <fees> --gas <gas>
+zigchaind tx gov cancel-proposal <proposal-id> --from <key-name> --chain-id <chain-id> --fees <fees>
+```
+
+example: 
+```sh
+zigchaind tx gov cancel-proposal 1 --from valuser1 --chain-id zigchain-1 --fees 50uzig
 ```
 
 ## Expedited Proposals
